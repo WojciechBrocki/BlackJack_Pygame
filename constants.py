@@ -3,13 +3,13 @@ import pygame as pygame
 display_width = 900
 display_height = 700
 
-background_color = (34,139,34)
+background_color = (0,102,51)
 grey = (192,192,192)
 black = (0,0,0)
 green = (0, 200, 0)
 red = (255,0,0)
-light_slat = (119,136,153)
-dark_slat = (47, 79, 79)
+button_color = (128,128,128)
+button_highlight = (0, 102, 102)
 dark_red = (255, 0, 0)
 pygame.init()
 font = pygame.font.SysFont("Arial", 20)

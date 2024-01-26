@@ -85,10 +85,9 @@ class Play:
 
         self.dealer.calc_hand()
         self.player.calc_hand()
-        try:
-            show_dealer_card = pygame.image.load('Resources/' + self.dealer.card_img[1] + '.png').convert()
-        except:
-            return
+        
+        show_dealer_card = pygame.image.load('Resources/' + self.dealer.card_img[1] + '.png').convert()
+        
         true_dealer_card = pygame.transform.scale(show_dealer_card, (100, 160))
         if self.player.value == 21 and self.dealer.value == 21:
             gameDisplay.blit(true_dealer_card, (550, 200))
@@ -113,7 +112,7 @@ class Play:
         self.dealer.value = 0
 
     def deal(self):
-        for i in range(2):
+        for i in range(5):
             self.dealer.add_card(self.deck.deal())
             self.player.add_card(self.deck.deal())
         self.dealer.display_cards()
@@ -129,111 +128,118 @@ class Play:
         player_card_2 = pygame.image.load('resources/' + self.player.card_img[1] + '.png').convert()
         player_card_2_2 = pygame.transform.scale(player_card_2, (100, 160))
 
-        
-        game_texts("Dealer's hand is:", 500, 150)
+
+        game_texts("Dealer's hand is:" , 500, 150)
 
         gameDisplay.blit(dealer_card_1_1, (400, 200))
         gameDisplay.blit(dealer_card_2_2, (550, 200))
 
-        game_texts("Your's hand is:", 500, 400)
+
+        game_texts("Your's hand is:" , 500, 400)
         
         gameDisplay.blit(player_card_1_1, (300, 450))
         gameDisplay.blit(player_card_2_2, (410, 450))
         self.blackjack()
             
             
-
-    def hit(self):
-        self.player.add_card(self.deck.deal())
-        self.blackjack()
-        try:
+    try:
+        def hit(self):
+            self.player.add_card(self.deck.deal())
+            self.blackjack()
+        
             self.player_card += 1
-        except:
-            return
         
-        if self.player_card == 2:
-            self.player.calc_hand()
-            self.player.display_cards()
-            try:
-                player_card_3_1 = pygame.image.load('resources/' + self.player.card_img[2] + '.png').convert()
-            except:
-                return
-            player_card_3_2 = pygame.transform.scale(player_card_3_1, (100, 160))
-            gameDisplay.blit(player_card_3_2, (520, 450))
-
-        if self.player_card == 3:
-            self.player.calc_hand()
-            self.player.display_cards()
-            try:
-                player_card_4_1 = pygame.image.load('resources/' + self.player.card_img[3] + '.png').convert()
-            except:
-                return
-            player_card_4_2 = pygame.transform.scale(player_card_4_1, (100, 160))
-            gameDisplay.blit(player_card_4_2, (630, 450))
+            
+            if self.player_card == 2:
+                self.player.calc_hand()
+                self.player.display_cards()
                 
-        if self.player.value > 21:
-            show_dealer_card_1_1 = pygame.image.load('resources/' + self.dealer.card_img[1] + '.png').convert()
-            show_dealer_card_1_2 = pygame.transform.scale(show_dealer_card_1_1, (100, 160))
-            gameDisplay.blit(show_dealer_card_1_2, (550, 200))
-            game_finish("You Busted!", 500, 250, red)
-            game_state['loses'] +=1
-            time.sleep(4)
-            self.play_or_exit()
-            
-        self.player.value = 0
+                player_card_3_1 = pygame.image.load('resources/' + self.player.card_img[2] + '.png').convert()
+                
+                player_card_3_2 = pygame.transform.scale(player_card_3_1, (100, 160))
+                gameDisplay.blit(player_card_3_2, (520, 450))
 
-        if self.player_card > 4:
-            sys.exit()
+            if self.player_card == 3:
+                self.player.calc_hand()
+                self.player.display_cards()
+                
+                player_card_4_1 = pygame.image.load('resources/' + self.player.card_img[3] + '.png').convert()
+                
+                player_card_4_2 = pygame.transform.scale(player_card_4_1, (100, 160))
+                gameDisplay.blit(player_card_4_2, (630, 450))
+                    
+            if self.player.value > 21:
+                show_dealer_card_1_1 = pygame.image.load('resources/' + self.dealer.card_img[1] + '.png').convert()
+                show_dealer_card_1_2 = pygame.transform.scale(show_dealer_card_1_1, (100, 160))
+                gameDisplay.blit(show_dealer_card_1_2, (550, 200))
+                game_finish("You Busted!", 500, 250, red)
+                game_state['loses'] +=1
+                time.sleep(4)
+                self.play_or_exit()
+                
+            self.player.value = 0
+
+            if self.player_card > 4:
+                sys.exit()
+    except:
+        pass         
+
+    try:            
+        def stand(self):
+
+            self.dealer.calc_hand()
             
-            
-    def stand(self):
-        try:
             show_dealer_card_2_1 = pygame.image.load('resources/' + self.dealer.card_img[1] + '.png').convert()
-        except:
-            return
-        try:
+            
             show_dealer_card_2_2 = pygame.transform.scale(show_dealer_card_2_1, (100, 160))
-        except:
-            return
-        gameDisplay.blit(show_dealer_card_2_2, (550, 200))
-        self.blackjack()
-        self.dealer.calc_hand()
-        self.player.calc_hand()
-        if self.player.value > self.dealer.value:
-            game_finish("You Won!", 500, 250, green)
-            game_state['Wins'] +=1
-            time.sleep(4)
-            self.play_or_exit()
-        elif self.player.value < self.dealer.value:
-            game_finish("Dealer Wins!", 500, 250, red)
-            game_state['loses'] +=1
-            time.sleep(4)
-            self.play_or_exit()
-        else:
-            game_finish("It's a Tie!", 500, 250, grey)
-            game_state['ties'] +=1
-            time.sleep(4)
-            self.play_or_exit()
-        
-    
-    def exit(self):
-        with open('save.txt', 'w') as save_file:
-                json.dump(game_state, save_file)
-        sys.exit()
-    
-    def play_or_exit(self):
-        game_texts("Play again press Deal!", 200, 50)
-        time.sleep(3)
-        self.player.value = 0
-        self.dealer.value = 0
-        self.deck = Deck()
-        self.dealer = Hand()
-        self.player = Hand()
-        self.deck.shuffle()
-        gameDisplay.fill(background_color)
-        pygame.draw.rect(gameDisplay, grey, pygame.Rect(0, 0, 250, 700))
-        pygame.display.update()
 
+            
+
+            
+            gameDisplay.blit(show_dealer_card_2_2, (550, 200))
+            self.blackjack()
+            self.dealer.calc_hand()
+            self.player.calc_hand()
+
+            
+
+            if self.player.value > self.dealer.value:
+                game_finish("You Won!", 500, 250, green)
+                game_state['Wins'] +=1
+                time.sleep(4)
+                self.play_or_exit()
+            elif self.player.value < self.dealer.value:
+                game_finish("Dealer Wins!", 500, 250, red)
+                game_state['loses'] +=1
+                time.sleep(4)
+                self.play_or_exit()
+            else:
+                game_finish("It's a Tie!", 500, 250, grey)
+                game_state['ties'] +=1
+                time.sleep(4)
+                self.play_or_exit()
+            
+        
+        def exit(self):
+            with open('save.txt', 'w') as save_file:
+                    json.dump(game_state, save_file)
+            sys.exit()
+        
+        def play_or_exit(self):
+            game_texts("Play again press Deal!", 200, 50)
+            time.sleep(3)
+            self.player.value = 0
+            self.dealer.value = 0
+            self.deck = Deck()
+            self.dealer = Hand()
+            self.player = Hand()
+            self.deck.shuffle()
+            gameDisplay.fill(background_color)
+            pygame.draw.rect(gameDisplay, grey, pygame.Rect(0, 0, 250, 700))
+            pygame.display.update()
+
+    except:
+        pass 
         
 play_blackjack = Play()
 
@@ -251,9 +257,9 @@ while running:
         game_texts("wins: " + str(game_state['Wins']), 80, 100)
         game_texts("ties: " + str(game_state['ties']), 80, 150)
         game_texts("loses: " + str(game_state['loses']), 80, 200)
-        button("Deal", 30, 320, 150, 50, light_slat, dark_slat, play_blackjack.deal)
-        button("Hit", 30, 380, 150, 50, light_slat, dark_slat, play_blackjack.hit)
-        button("Stand", 30, 440, 150, 50, light_slat, dark_slat, play_blackjack.stand)
-        button("EXIT", 30, 500, 150, 50, light_slat, dark_red, play_blackjack.exit)
+        button("Deal", 30, 320, 150, 50, button_color, button_highlight, play_blackjack.deal)
+        button("Hit", 30, 380, 150, 50, button_color, button_highlight, play_blackjack.hit)
+        button("Stand", 30, 440, 150, 50, button_color, button_highlight, play_blackjack.stand)
+        button("EXIT", 30, 500, 150, 50, button_color, dark_red, play_blackjack.exit)
     
     pygame.display.flip()
