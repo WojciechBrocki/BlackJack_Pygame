@@ -85,8 +85,10 @@ class Play:
 
         self.dealer.calc_hand()
         self.player.calc_hand()
-
-        show_dealer_card = pygame.image.load('Resources/' + self.dealer.card_img[1] + '.png').convert()
+        try:
+            show_dealer_card = pygame.image.load('Resources/' + self.dealer.card_img[1] + '.png').convert()
+        except:
+            return
         true_dealer_card = pygame.transform.scale(show_dealer_card, (100, 160))
         if self.player.value == 21 and self.dealer.value == 21:
             gameDisplay.blit(true_dealer_card, (550, 200))
@@ -144,19 +146,28 @@ class Play:
     def hit(self):
         self.player.add_card(self.deck.deal())
         self.blackjack()
-        self.player_card += 1
+        try:
+            self.player_card += 1
+        except:
+            return
         
         if self.player_card == 2:
             self.player.calc_hand()
             self.player.display_cards()
-            player_card_3_1 = pygame.image.load('resources/' + self.player.card_img[2] + '.png').convert()
+            try:
+                player_card_3_1 = pygame.image.load('resources/' + self.player.card_img[2] + '.png').convert()
+            except:
+                return
             player_card_3_2 = pygame.transform.scale(player_card_3_1, (100, 160))
             gameDisplay.blit(player_card_3_2, (520, 450))
 
         if self.player_card == 3:
             self.player.calc_hand()
             self.player.display_cards()
-            player_card_4_1 = pygame.image.load('resources/' + self.player.card_img[3] + '.png').convert()
+            try:
+                player_card_4_1 = pygame.image.load('resources/' + self.player.card_img[3] + '.png').convert()
+            except:
+                return
             player_card_4_2 = pygame.transform.scale(player_card_4_1, (100, 160))
             gameDisplay.blit(player_card_4_2, (630, 450))
                 
@@ -176,8 +187,14 @@ class Play:
             
             
     def stand(self):
-        show_dealer_card_2_1 = pygame.image.load('resources/' + self.dealer.card_img[1] + '.png').convert()
-        show_dealer_card_2_2 = pygame.transform.scale(show_dealer_card_2_1, (100, 160))
+        try:
+            show_dealer_card_2_1 = pygame.image.load('resources/' + self.dealer.card_img[1] + '.png').convert()
+        except:
+            return
+        try:
+            show_dealer_card_2_2 = pygame.transform.scale(show_dealer_card_2_1, (100, 160))
+        except:
+            return
         gameDisplay.blit(show_dealer_card_2_2, (550, 200))
         self.blackjack()
         self.dealer.calc_hand()
